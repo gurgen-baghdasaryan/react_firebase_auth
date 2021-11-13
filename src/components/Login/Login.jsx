@@ -9,7 +9,7 @@ const Login = () => {
         <form className='form-group'>
           <input className='form-control' type="text" placeholder="Introduce the Email"/>
           <input className='form-control mt-3' type="text" placeholder="Introduce the Password" />
-          <input className='btn btn-dark  btn-responsive btninter center mt-3' type="submit" value="User Register"/>
+          <input className='btn btn-dark  btn-responsive center mt-3' type="submit" value="User Register"/>
         </form>
       </div>
       <div className="col"></div>
