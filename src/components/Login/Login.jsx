@@ -7,20 +7,32 @@ const Login = () => {
 
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
+  const [errmsg, setErrmsg] = useState(null)
 
-  const userRegister = async(e) => {
+  const userRegister = (e) => {
     e.preventDefault()
-    try{
-    const user = await createUserWithEmailAndPassword(auth, email, pass)
-    }catch(error){
-      console.log(error.message);
-    }
 
-
-
-
+    createUserWithEmailAndPassword(auth, email, pass)
+      .then((res) => console.log(res))
+      .catch((error) => {
+        if (error.code == 'auth/invalid-email') {
+          setErrmsg('invalid email format  ')
+        }
+        if (error.code == 'auth/weak-password') {
+          setErrmsg('password must be at least 6 characters long ')
+        }
+      })
   }
 
+  const userLogin = () => {
+    createUserWithEmailAndPassword(auth, email, pass)
+      .then((res) => console.log(res))
+      .catch((error) => {
+        if (error.code == 'auth/email-already-in-use') {
+          setErrmsg('Email Already in Use  ')
+        }
+      })
+  }
 
   return (
 
@@ -31,7 +43,7 @@ const Login = () => {
           <input
             onChange={(e) => { setEmail(e.target.value) }}
             className='form-control'
-            type="text"
+            type="email"
             placeholder="Introduce the Email"
             value={email}
           />
@@ -40,12 +52,23 @@ const Login = () => {
             className='form-control mt-3'
             type="password"
             placeholder="Introduce the Password"
-            
-            />
+
+          />
           <input className='btn btn-dark  btn-responsive center mt-3'
             type="submit"
             value="User Register" />
         </form>
+        <button onClick={userLogin} className="btn btn-success btn- block mt-3" >Login</button>
+        {
+          errmsg !== null ?
+            (
+              <div className="alert alert-danger mt-2">{errmsg}</div>
+            )
+            :
+            (
+              <span></span>
+            )
+        }
       </div>
       <div className="col"></div>
     </div>
