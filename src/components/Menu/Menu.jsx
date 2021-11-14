@@ -1,7 +1,25 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
 import { Link } from "react-router-dom";
+import { auth } from "../../firebaseconfig";
+
 
 const Menu = () => {
+
+  const [usuario, setUsuario] = useState(null)
+
+  useEffect(() => {
+   auth.onAuthStateChanged((user) => {
+    if (user) {
+      setUsuario(user.email)
+    }
+   })
+  }, [])
+
+  const logOut = () =>{
+    auth.signOut()
+    setUsuario(null )
+  }
+
   return (
     <div>
 
@@ -17,6 +35,16 @@ const Menu = () => {
             <Link className="nav-link" to="/Admin">Admin</Link>
           </li>
         </ul>
+        {
+          usuario ? 
+          (
+            <button onClick={logOut} className="btn btn-danger ml-6">Logout </button>
+          )
+          :
+          (
+            <span></span>
+          )
+        }
       </nav>
 
     </div>);
