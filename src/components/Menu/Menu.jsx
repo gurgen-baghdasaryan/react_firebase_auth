@@ -1,23 +1,24 @@
-import React,{useState, useEffect} from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
 import { auth } from "../../firebaseconfig";
 
 
 const Menu = () => {
 
   const [usuario, setUsuario] = useState(null)
-
+  const history = useHistory()
   useEffect(() => {
-   auth.onAuthStateChanged((user) => {
-    if (user) {
-      setUsuario(user.email)
-    }
-   })
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUsuario(user.email)
+      }
+    })
   }, [])
 
-  const logOut = () =>{
+  const logOut = () => {
     auth.signOut()
-    setUsuario(null )
+    setUsuario(null)
+    history.push('/')
   }
 
   return (
@@ -29,21 +30,41 @@ const Menu = () => {
             <Link className="nav-link" to="/">Home</Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/Login">Login</Link>
+            {
+              !usuario ?
+                (
+                  <Link className="nav-link" to="/Login">Login</Link>
+
+                )
+                :
+                (
+                  <span></span>
+                )
+            }
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/Admin">Admin</Link>
+            {
+              !usuario ?
+                (
+                  <Link className="nav-link" to="/Admin">Admin</Link>
+
+                )
+                :
+                (
+                  <span></span>
+                )
+            }
           </li>
         </ul>
         {
-          usuario ? 
-          (
-            <button onClick={logOut} className="btn btn-danger ml-6">Logout </button>
-          )
-          :
-          (
-            <span></span>
-          )
+          usuario ?
+            (
+              <button onClick={logOut} className="btn btn-danger ml-6">Logout </button>
+            )
+            :
+            (
+              <span></span>
+            )
         }
       </nav>
 

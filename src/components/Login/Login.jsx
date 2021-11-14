@@ -1,10 +1,11 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../firebaseconfig";
+import { useHistory } from "react-router-dom";
 
 
 const Login = () => {
-
+  const history = useHistory()
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
   const [errmsg, setErrmsg] = useState(null)
@@ -13,7 +14,9 @@ const Login = () => {
     e.preventDefault()
 
     createUserWithEmailAndPassword(auth, email, pass)
-      .then((res) => console.log(res))
+      .then((res) => {
+        history.push('/')
+      })
       .catch((error) => {
         if (error.code == 'auth/invalid-email') {
           setErrmsg('invalid email format  ')
@@ -26,7 +29,9 @@ const Login = () => {
 
   const userLogin = () => {
     signInWithEmailAndPassword(auth, email, pass)
-      .then((res) => console.log(res))
+      .then((res) => {
+        history.push('/')
+      })
       .catch((error) => {
         if (error.code == 'auth/email-already-in-use') {
           setErrmsg('Email Already in Use  ')
