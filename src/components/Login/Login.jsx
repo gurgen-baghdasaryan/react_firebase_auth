@@ -12,7 +12,6 @@ const Login = () => {
     e.preventDefault()
     try{
     const user = await createUserWithEmailAndPassword(auth, email, pass)
-      console.log(user);
     }catch(error){
       console.log(error.message);
     }
