@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../firebaseconfig";
 
@@ -25,7 +25,7 @@ const Login = () => {
   }
 
   const userLogin = () => {
-    createUserWithEmailAndPassword(auth, email, pass)
+    signInWithEmailAndPassword(auth, email, pass)
       .then((res) => console.log(res))
       .catch((error) => {
         if (error.code == 'auth/email-already-in-use') {
